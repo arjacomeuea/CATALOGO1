@@ -1,0 +1,96 @@
+using System;
+using System.Collections.Generic;
+
+public class Revista
+{
+    public string Titulo { get; set; }
+
+    public Revista(string titulo)
+    {
+        Titulo = titulo;
+    }
+}
+
+public class CatalogoRevistas
+{
+    private List<Revista> revistas = new List<Revista>();
+
+    public void AgregarRevista(Revista revista)
+    {
+        revistas.Add(revista);
+    }
+
+    public bool BuscarRevista(string titulo)
+    {
+        foreach (var revista in revistas)
+        {
+            if (revista.Titulo.Equals(titulo, StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void MostrarMenu()
+    {
+        Console.WriteLine("--- Catálogo de Revistas ---");
+        Console.WriteLine("1. Buscar revista");
+        Console.WriteLine("2. Salir");
+        Console.Write("Seleccione una opción: ");
+    }
+}
+
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        CatalogoRevistas catalogo = new CatalogoRevistas();
+
+        // Agregar 10 títulos de revistas al catálogo
+        catalogo.AgregarRevista(new Revista("National Geographic"));
+        catalogo.AgregarRevista(new Revista("Time"));
+        cataligo.AgregarRevista(new Revista("Science"));
+        catalogo.AgregarRevista(new Revista("Forbes"));
+        catalogo.AgregarRevista(new Revista("Vogue"));
+        catalogo.AgregarRevista(new Revista("Nature"));
+        catalogo.AgregarRevista(new Revista("PC Magazine"));
+        catalogo.AgregarRevista(new Revista("Sports Illustrated"));
+        catalogo.AgregarRevista(new Revista("The Economist"));
+        catalogo.AgregarRevista(new Revista("Wired"));
+
+        int opcion;
+        do
+        {
+            catalogo.MostrarMenu();
+            if (int.TryParse(Console.ReadLine(), out opcion))
+            {
+                switch (opcion)
+                {
+                    case 1:
+                        Console.Write("Ingrese el título de la revista a buscar: ");
+                        string tituloBuscar = Console.ReadLine();
+                        if (catalogo.BuscarRevista(tituloBuscar))
+                        {
+                            Console.WriteLine("Encontrado");
+                        }
+                        else
+                        {
+                            Console.WriteLine("No encontrado");
+                        }
+                        break;
+                    case 2:
+                        Console.WriteLine("Saliendo...");
+                        break;
+                    default:
+                        Console.WriteLine("Opción no válida.");
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Opción no válida.");
+            }
+        } while (opcion != 2);
+    }
+}
